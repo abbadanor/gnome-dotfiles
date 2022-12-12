@@ -1,0 +1,5 @@
+! option = symbols
+sv:basic = +sv(basic)
+
+// Include the system 'evdev' file
+! include %S/evdev

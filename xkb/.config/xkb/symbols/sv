@@ -1,0 +1,17 @@
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+    name[Group1]= "English (modified)";
+
+    include "us(basic)"
+
+    key <CAPS> { [ Escape ] };
+    key <AD03> { [ e, E, eacute, Eacute	] };
+    key <AD07> { [ u, U, udiaeresis, Udiaeresis	] };
+    key <AD08> { [ i, I, idiaeresis, Idiaeresis	] };
+    key <AD11> { [ bracketleft, braceleft, aring, Aring	] };
+    key <AC02> { [ s, S, ssharp ] };
+    key <AC10> { [ semicolon, colon, odiaeresis, Odiaeresis	] };
+    key <AC11> { [ apostrophe, quotedbl, adiaeresis, Adiaeresis	] };
+
+    include "level3(ralt_switch)"
+};
