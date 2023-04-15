@@ -1,24 +1,22 @@
 #!/bin/sh
-# get fastest mirrors
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
-alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
-
 # common commands
 alias p="pacman"
-alias v="vim"
+alias v="nvim"
 alias s="systemctl"
 alias ka="killall"
 alias kys="poweroff"
 alias py="python"
-alias remote="ssh root@fladam.org"
+alias remote="ssh root@a-nord.se"
 alias ls="exa -l --color=always --group-directories-first"
 alias la="exa -la --color=always --group-directories-first"
+alias rm="trash-put"
+alias rmf="rm -rf"
+alias rmsudo="sudo rm -rf"
+alias fda="fd -u"
 
 alias gc="cd ~/.config"
 alias gd="cd ~/dev"
-alias gf="cd ~/.dotfiles"
+alias gC="cd ~/.new-dotfiles"
 alias gD="cd ~/downloads"
 alias go="cd ~/org"
 alias gp="cd ~/pictures"
@@ -29,24 +27,25 @@ alias gS="cd ~/.local/share"
 alias gb="cd ~/.local/bin"
 alias gM="cd /mnt"
 alias gr="cd /"
+alias eht="cd ~/dev/web/ehtkollen/"
 
-alias reloademacs="systemctl --user restart emacs"
+alias rmnodemodules="fd -u -t d node_modules -x rm -rf {}"
 
 # confirm before overwriting something
 alias cp="cp -i"
 alias mv='mv -i'
-alias rm='rm -i'
+alias mkdir="mkdir -pv"
 
-alias mkd="mkdir -pv"
 alias ffmpeg="ffmpeg -hide_banner"
 alias yta="yt-dlp -x -f bestaudio"
 
 # easier to read disk
 alias df='df -h'     # human-readable sizes
-alias du='du -h'     # human-readable sizes
+alias du='du -hd1 | sort -h'     # human-readable sizes
+alias durecursive='du -h'     # human-readable sizes
 alias free='free -m' # show sizes in MB
 
 # remove need to type sudo
-for cmd in pacman rc-update rc-service reboot poweroff mount umount docker; do
+for cmd in pacman rc-update rc-service reboot poweroff mount umount docker docker-compose; do
 	alias $cmd="sudo $cmd";
 done; unset cmd

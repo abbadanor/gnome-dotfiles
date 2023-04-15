@@ -5,10 +5,7 @@
 # @version 0.1
 
 all:
-	stow --verbose --target=$$HOME --restow */
+	stow --verbose --no-folding --target=$$HOME --restow */
 delete:
-	stow --verbose --target=$$HOME --delete */
-#root:
-	#stow --verbose --target=/ --restow */root/
-
+	stow --verbose --no-folding --target=$$HOME --delete */
 # end

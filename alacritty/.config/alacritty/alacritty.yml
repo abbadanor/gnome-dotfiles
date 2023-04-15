@@ -122,7 +122,7 @@ font:
     family: "JetBrainsMono Nerd Font Mono"
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
+    style: SemiBold
 
   # Bold font face
   bold:
@@ -184,34 +184,23 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
+# Colors (Doom One)
 colors:
-  bright:
-    black: '#4c566a'
-    blue: '#81a1c1'
-    cyan: '#8fbcbb'
-    green: '#a3be8c'
-    magenta: '#b48ead'
-    red: '#bf616a'
-    white: '#eceff4'
-    yellow: '#ebcb8b'
-  cursor:
-    cursor: '#eceff4'
-    text: '#282828'
-  normal:
-    black: '#3b4252'
-    blue: '#81a1c1'
-    cyan: '#88c0d0'
-    green: '#a3be8c'
-    magenta: '#b48ead'
-    red: '#bf616a'
-    white: '#e5e9f0'
-    yellow: '#ebcb8b'
+  # Default colors
   primary:
-    background: '#2e3440'
-    foreground: '#d8dee9'
-  selection:
-    background: '#eceff4'
-    text: '#4c566a'
+    background: '0x282c34'
+    foreground: '0xbbc2cf'
+
+  # Normal colors
+  normal:
+    black:   '0x282c34'
+    red:     '0xff6c6b'
+    green:   '0x98be65'
+    yellow:  '0xecbe7b'
+    blue:    '0x51afef'
+    magenta: '0xc678dd'
+    cyan:    '0x46d9ff'
+    white:   '0xbbc2cf'
 
 # Bell
 #

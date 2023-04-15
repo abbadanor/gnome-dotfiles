@@ -1,5 +1,7 @@
 #!/bin/sh
-export ZDOTDIR=$HOME/.config/zsh
+
+# Config är från chris@machine (https://www.youtube.com/watch?v=bTLYiNvRIVI)
+
 setopt appendhistory
 
 # some useful options (man zshoptions)
@@ -10,7 +12,6 @@ zle_highlight=('paste:none')
 
 # beeping is annoying
 unsetopt BEEP
-
 
 # completions
 autoload -Uz compinit
@@ -33,67 +34,52 @@ source "$ZDOTDIR/zsh-functions"
 
 # Normal files to source
 zsh_add_file "zsh-exports"
-zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
 zsh_add_file "zsh-prompt"
 
+# Ensure history file exists
+if [[ ! -f $HISTFILE ]]; then
+	[ -d $(dirname $HISTFILE) ] || mkdir -p $(dirname $HISTFILE)
+	touch $HISTFILE
+	echo "ZSH: Created history file in $(dirname $HISTFILE)"
+fi
+
+# Gör så att zsh-autopair funkar tillsammans med zsh-vi-mode
+ZVM_INIT_MODE=sourcing
+
 # Plugins
+zsh_add_plugin "hlissner/zsh-autopair"
+zsh_add_plugin "jeffreytse/zsh-vi-mode"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
-zsh_add_plugin "hlissner/zsh-autopair"
 zsh_add_plugin "joshskidmore/zsh-fzf-history-search"
+zsh_add_plugin "lukechilds/zsh-nvm"
+
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+
 
 # For more plugins: https://github.com/unixorn/awesome-zsh-plugins
 # More completions https://github.com/zsh-users/zsh-completions
-
-# TODO: lägg till så att <C-Backspace> tar bort föregående ord, <C-Left> åt vänster etc..
-# Key-bindings
 bindkey -s '^o' 'ranger^M'
-bindkey "^p" up-line-or-beginning-search # Up
-bindkey "^n" down-line-or-beginning-search # Down
-bindkey "^k" up-line-or-beginning-search # Up
-bindkey "^j" down-line-or-beginning-search # Down
-bindkey -r "^u"
-bindkey -r "^d"
-bindkey -M viins '^H' backward-kill-word
+# "cd -" går till föregående directory. användbart efter fzf. 
+bindkey -M viins -s '^b' 'cd -^M' # https://unix.stackexchange.com/a/373796
+bindkey -M viins '^H' backward-kill-word 
 bindkey -M viins '^[[1;5C' forward-word
 bindkey -M viins '^[[1;5D' backward-word
 
-# FZF 
-# TODO update for mac
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
-[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
-# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
+# <Alt-d> to navigate to directory
+bindkey -M emacs '^[d' fzf-cd-widget
+bindkey -M vicmd '^[d' fzf-cd-widget
+bindkey -M viins '^[d' fzf-cd-widget
+
+# <Alt-f> to autocomplete file
+bindkey -M emacs '^[f' fzf-file-widget
+bindkey -M vicmd '^[f' fzf-file-widget
+bindkey -M viins '^[f' fzf-file-widget
+
+# Unbind old keybinds
+bindkey -r '^[c'
+bindkey -r '^T'
+
 compinit
-
-# nvm
-source /usr/share/nvm/init-nvm.sh
-
-# place this after nvm initialization!
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-
-# Edit line in vim with ctrl-e:
-# autoload edit-command-line; zle -N edit-command-line
-# bindkey '^e' edit-command-line

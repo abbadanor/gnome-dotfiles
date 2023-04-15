@@ -3,7 +3,7 @@ Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 
 [Service]
-Type=forking
+Type=idle
 ExecStartPre=/usr/bin/emacs --daemon
 ExecStart=/usr/bin/notify-send "Emacs is ready"
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
