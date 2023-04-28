@@ -4,16 +4,8 @@
 
 * Lexical binding
 Turn on lexical binding for the init file
-
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-#+end_src
-
-* User Interface
-Clean up Emacs’ user interface, make it more minimal.
-
-#+begin_src emacs-lisp
-  (setq default-frame-alist '((undecorated . t)))
 #+end_src
 
 * Personal information
@@ -21,13 +13,18 @@ Some functionality uses this to identify you, e.g. GPG configuration, email
 clients, file templates and snippets. It is optional.
 
 #+begin_src emacs-lisp
-  (setq user-full-name "Adam Nord"
-        user-mail-address "adam.nord04@gmail.com")
+(setq user-full-name "Adam Nord"
+      user-mail-address "adam.nord04@gmail.com")
 #+end_src
+* Styling
+** User Interface
+Clean up Emacs’ user interface, make it more minimal.
 
-* Fonts
+#+begin_src emacs-lisp
+(setq default-frame-alist '((undecorated . t)))
+#+end_src
+** Fonts
 Doom exposes five (optional) variables for controlling fonts in Doom:
-
 - `doom-font' -- the primary font to use
 - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
 - `doom-big-font' -- used for `doom-big-font-mode'; use this for
@@ -35,94 +32,70 @@ Doom exposes five (optional) variables for controlling fonts in Doom:
 - `doom-unicode-font' -- for unicode glyphs
 - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
-  See 'C-h v doom-font' for documentation and more examples of what they
-  accept. For example:
-
 #+begin_src emacs-lisp
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
-        doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 13)
-        doom-big-font (font-spec :family "Iosevka Aile" :size 24))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 15)
+      doom-variable-pitch-font (font-spec :family "SF Pro Text" :size 15 :weight 'medium)
+      doom-big-font (font-spec :family "SF Pro Text" :size 20 :weight 'bold))
 #+end_src
 
-* Theming
+** Theme
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. This is the default:
 
 #+begin_src emacs-lisp
-  (load-theme 'doom-palenight 't)
+(setq doom-theme 'doom-palenight)
+#+end_src
+
+* Settings
+** Auto revert
+#+begin_src emacs-lisp
+(global-auto-revert-mode t)
+#+end_src
+
+** Line numbers
+Sets line-numbers to relative and disables for org-mode
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+** Scroll margin
+#+begin_src emacs-lisp
+(setq scroll-margin 6)
+#+end_src
+
+** TODO Indentation
+Set tab width to two and use spaces instead of tabs
+#+begin_src emacs-lisp
+(setq-default tab-width 2)
+(setq-default evil-shift-width tab-width)
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+** Even window sizes
+Don't try to use even window sizes
+#+begin_src emacs-lisp
+(setq even-window-sizes nil)
 #+end_src
 
 * Keybinds
-** Escape
-Escape by pressing escape
-
-#+begin_src emacs-lisp :tangle no
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
 ** Leader keybinds
 #+begin_src emacs-lisp
-  (map! :leader
-    :desc "Eval line or region" "e" #'+eval/line-or-region)
+(map! :leader
+  :desc "Eval line or region" "e" #'+eval/line-or-region
+  :desc "Search org headings" "sh" #'consult-org-heading)
 #+end_src
 
 ** Other keybinds
 #+begin_src emacs-lisp
-  (map!
-    :nv "C-s" #'save-buffer
-    :nv "C-f" #'consult-line
-    :g "C-TAB" #'centaur-tabs-forward-tab
-    :g "C-S-TAB" #'centaur-tabs-forward-tab
-    )
+(map!
+  :nv "C-s" #'save-buffer
+  :nv "C-f" #'consult-line)
 #+end_src
 
 * Evil
-** Line numbers
-Sets line-numbers to relative and disables for org-mode
-
-#+begin_src emacs-lisp
-  (setq display-line-numbers-type 'relative)
-
-  (dolist (mode '(org-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
-#+end_src
-
-** Scroll margin
-Sets line-numbers to relative
-
-#+begin_src emacs-lisp
-  (setq scroll-margin 6)
-#+end_src
-
-** Drag-stuff
-Drag lines in visual mode with J and K
-
-#+begin_src emacs-lisp
-(after! drag-stuff
-  (drag-stuff-mode t))
-#+end_src
-
-** Evil custom functions
-Custom functions to improve the evil experience
-
-#+begin_src emacs-lisp
-(defun an/evil-shift-right ()
-  (interactive)
-  (evil-shift-right evil-visual-beginning evil-visual-end)
-  (evil-normal-state)
-  (evil-visual-restore))
-
-(defun an/evil-shift-left ()
-  (interactive)
-  (evil-shift-left evil-visual-beginning evil-visual-end)
-  (evil-normal-state)
-  (evil-visual-restore))
-#+end_src
-
 ** Evil configuration
 Don't yank when pasting over something
-
 #+begin_src emacs-lisp
 (after! evil
   (setq evil-kill-on-visual-paste nil))
@@ -130,12 +103,9 @@ Don't yank when pasting over something
 
 ** Evil keybinds
 Keybinds specific to evil mode
-
 #+begin_src emacs-lisp
 (map!
  :i "C-g"  #'evil-normal-state
- :v "<" #'an/evil-shift-left
- :v ">" #'an/evil-shift-right
  :v "J" #'drag-stuff-down
  :v "K" #'drag-stuff-up
  :m "C-f" nil)
@@ -143,7 +113,6 @@ Keybinds specific to evil mode
 
 ** Add yank highlight
 Highlight temporarily on yank
-
 #+begin_src emacs-lisp
 (defun an/evil-yank-advice (orig-fn beg end &rest args)
   (pulse-momentary-highlight-region beg end)
@@ -152,102 +121,44 @@ Highlight temporarily on yank
 (advice-add 'evil-yank :around #'an/evil-yank-advice)
 #+end_src
 
-* TODO Which-key
-Only show when C-h is pressed
-
-#+begin_src emacs-lisp :tangle no
-(map! :g "C-h x" nil)
-(map! :g "C-h w" nil)
-
-(after! which-key
-  (setq which-key-show-early-on-C-h t)
-  (setq which-key-idle-delay 10000)
-  (setq which-key-idle-secondary-delay 0.05))
-#+end_src
-
-* Indentation
-Set tab width to two and use spaces instead of tabs
-
-#+begin_src emacs-lisp
-(setq-default tab-width 2)
-(setq-default evil-shift-width tab-width)
-(setq-default indent-tabs-mode nil)
-#+end_src
-
-* Maximum width
-Center text and set max width for org mode buffers
-
-#+begin_src emacs-lisp
-(defun an/org-mode-visual-fill ()
-  (setq visual-fill-column-width 110
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package! visual-fill-column
-  :defer t
-  :hook (org-mode . an/org-mode-visual-fill))
-#+end_src
-
-* Even window sizes
-Don't try to use even window sizes
-
-#+begin_src emacs-lisp
-(setq even-window-sizes nil)
-#+end_src
 * Org
+** Hooks
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
+(add-hook 'org-mode-hook (lambda () (vi-tilde-fringe-mode -1)))
+#+end_src
+** Header sizes
+#+begin_src emacs-lisp
+(use-package! org
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (set-face-attribute 'org-document-title nil :font "SF Pro Text" :weight 'bold :height 1.3)
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "SF Pro Text" :weight 'medium :height (cdr face))))
+#+end_src
 ** Set directory
 Set org directory
-
 #+begin_src emacs-lisp
-  (setq org-directory "~/org/")
-  (setq org-roam-directory "~/org/roam/")
+(setq org-directory "~/org/")
+(setq org-roam-directory "~/org/roam/")
 #+end_src
-
-** Svg tag mode
-Set org directory
-
+* LSP
 #+begin_src emacs-lisp
-  (use-package! svg-tag-mode
-    :after org
-    :hook (org-mode . svg-tag-mode)
-    :config
-    (setq svg-tag-tags
-          '(("TODO" . ((lambda (tag) (svg-tag-make "TODO"))))
-            ("DONE" . ((lambda (tag) (svg-tag-make "DONE"))))
-            ("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag) (svg-tag-make tag :beg 2))))
-            ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag) (svg-tag-make tag :beg 2 :end -1))))
-            )))
+(after! lsp
+  (setq lsp-eslint-auto-fix-on-save t))
 #+end_src
-
-* Configuring packages
-Whenever you reconfigure a package, make sure to wrap your config in an
-`after!' block, otherwise Doom's defaults may override your settings. E.g.
-
-  (after! PACKAGE
-    (setq x y))
-
-The exceptions to this rule:
-
-  - Setting file/directory variables (like `org-directory')
-  - Setting variables which explicitly tell you to set them before their
-    package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-  - Setting doom variables (which start with 'doom-' or '+').
-
-Here are some additional functions/macros that will help you configure Doom.
-
-- `load!' for loading external *.el files relative to this one
-- `use-package!' for configuring packages
-- `after!' for running code after a package has loaded
-- `add-load-path!' for adding directories to the `load-path', relative to
-  this file. Emacs searches the `load-path' when you load packages with
-  `require' or `use-package'.
-- `map!' for binding new keys
-
-To get information about any of these functions/macros, move the cursor over
-the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-This will open documentation for it, including demos of how they are used.
-Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-etc).
-
-You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-they are implemented.
+* Web mode
+#+begin_src emacs-lisp
+(after! web-mode
+  (setq-default web-mode-script-padding 0
+                web-mode-block-padding 0
+                web-mode-part-padding 0
+                web-mode-style-padding 0))
+#+end_src
