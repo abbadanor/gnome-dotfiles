@@ -1,135 +1,90 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(setq default-frame-alist '((undecorated . t)))
+
 (setq user-full-name "Adam Nord"
       user-mail-address "adam.nord04@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-
-;;
-;; Aesthetics
-;;
-
 (setq doom-font (font-spec :family "JetBrains Mono" :size 15)
-      doom-variable-pitch-font (font-spec :family "Roboto" :size 13)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 13)
+      doom-big-font (font-spec :family "Iosevka Aile" :size 24))
 
-(setq doom-theme 'doom-one)
+(load-theme 'doom-palenight 't)
+
+(map! :leader
+  :desc "Eval line or region" "e" #'+eval/line-or-region)
+
+(map!
+  :nv "C-s" #'save-buffer
+  :nv "C-f" #'consult-line
+  :g "C-TAB" #'centaur-tabs-forward-tab
+  :g "C-S-TAB" #'centaur-tabs-forward-tab
+  )
 
 (setq display-line-numbers-type 'relative)
 
-(setq default-frame-alist '((undecorated . t)))
-(scroll-bar-mode -1)
-;; TODO: treemacs ser ut som en påse skit
+(dolist (mode '(org-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(setq scroll-margin 6)
 
-(setq scroll-margin 8)
-(setq lsp-restart 'ignore)
+(after! drag-stuff
+  (drag-stuff-mode t))
 
-(global-subword-mode 1)
+(defun an/evil-shift-right ()
+  (interactive)
+  (evil-shift-right evil-visual-beginning evil-visual-end)
+  (evil-normal-state)
+  (evil-visual-restore))
 
-(setq evil-split-window-below t
-      evil-vsplit-window-right t
-      evil-want-fine-undo t
-      evil-ex-substitute-global t
-      evil-kill-on-visual-paste nil)
+(defun an/evil-shift-left ()
+  (interactive)
+  (evil-shift-left evil-visual-beginning evil-visual-end)
+  (evil-normal-state)
+  (evil-visual-restore))
 
-(setq vterm-kill-buffer-on-exit t)
+(after! evil
+  (setq evil-kill-on-visual-paste nil))
 
-(after! vterm
-  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w")))))
+(map!
+ :i "C-g"  #'evil-normal-state
+ :v "<" #'an/evil-shift-left
+ :v ">" #'an/evil-shift-right
+ :v "J" #'drag-stuff-down
+ :v "K" #'drag-stuff-up
+ :m "C-f" nil)
 
-;; (setq vterm-shell "/bin/zsh")
+(defun an/evil-yank-advice (orig-fn beg end &rest args)
+  (pulse-momentary-highlight-region beg end)
+  (apply orig-fn beg end args))
 
-;; TODO: fixa fucking... indentation
-;; (setq standard-indent 2)
+(advice-add 'evil-yank :around #'an/evil-yank-advice)
 
-;; (setq-default tab-width 2)
+(setq-default tab-width 2)
+(setq-default evil-shift-width tab-width)
+(setq-default indent-tabs-mode nil)
 
-;; (setq-default evil-shift-width 2)
+(defun an/org-mode-visual-fill ()
+  (setq visual-fill-column-width 110
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
 
-;; (setq lisp-indent-offset 2)
+(use-package! visual-fill-column
+  :defer t
+  :hook (org-mode . an/org-mode-visual-fill))
 
-;; (add-hook 'lisp-mode-hook
-;;   (function (lambda ()
-;;               (setq evil-shift-width 2))))
-;;
+(setq even-window-sizes nil)
+
 (setq org-directory "~/org/")
+(setq org-roam-directory "~/org/roam/")
 
-(after! lsp-mode
-  (setq lsp-eslint-auto-fix-on-save t))
-
-;; (after! lsp-mode
-;;   (setq +lsp-company-backends
-;;         '(:separate company-capf company-yasnippet company-dabbrev)))
-
-;; TODO: man ska kunna flytta lines
-
-(map! :g "C-s" #'save-buffer)
-
-(map! :after evil :gnvi "C-f" #'consult-line)
-
-(map!
- :after company
- :map company-active-map
- "C-u" #'company-select-previous
- "C-d" #'company-select-next)
-
-(map!
- :after lsp-mode
- :map lsp-mode-map
- :n "K"  #'lsp-ui-doc-glance)
-
-(map!
- :after lsp-mode
- :map lsp-ui-flycheck-list-mode-map
- :n "q"  #'lsp-ui-flycheck-list--quit
- :n "<escape>"  #'lsp-ui-flycheck-list--quit)
-
-(map!
- :after lsp-mode
- :map lsp-mode-map
- :leader
- :prefix "l"
- "e"  #'lsp-ui-flycheck-list)
-
-(map!
- :after vertico
- :map vertico-map
- "C-d"  #'vertico-next
- "C-u"  #'vertico-previous)
-
-(map!
- :n "gn"  #'next-error
- :n "gN"  #'previous-error)
-
-(map!
- :leader
- :prefix "TAB"
- "x"  #'doom/kill-other-buffers
- "X"  #'doom/kill-all-buffers)
-
-;; TODO: prisma, tailwind, vue
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
+(use-package! svg-tag-mode
+  :after org
+  :hook (org-mode . svg-tag-mode)
+  :config
+  (setq svg-tag-tags
+        '(("TODO" . ((lambda (tag) (svg-tag-make "TODO"))))
+          ("DONE" . ((lambda (tag) (svg-tag-make "DONE"))))
+          ("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag) (svg-tag-make tag :beg 2))))
+          ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag) (svg-tag-make tag :beg 2 :end -1))))
+          )))
