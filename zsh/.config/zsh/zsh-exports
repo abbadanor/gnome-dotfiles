@@ -1,15 +1,1 @@
 #!/bin/sh
-export HISTFILE=$HOME/.local/share/zsh/history
-export HISTSIZE=1000000
-export SAVEHIST=1000000
-export NVM_DIR="$HOME/.local/share/nvm"
-export PATH="$HOME/.local/bin:$HOME/.local/share/pnpm:$PATH"
-export PNPM_HOME="$HOME/.local/share/pnpm"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export MANWIDTH=999
-export EDITOR="nvim"
-export BROWSER="firefox"
-export PAGER="bat --paging always"
-export FZF_DEFAULT_COMMAND="fd . $HOME"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd -t d . $HOME"

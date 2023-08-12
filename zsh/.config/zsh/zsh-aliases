@@ -12,8 +12,6 @@ alias la="exa -la --color=always --group-directories-first"
 alias rm="trash-put"
 alias rmf="rm -rf"
 alias rmsudo="sudo rm -rf"
-alias fdr="fd -ui -E $HOME"
-alias fda="fd -ui"
 alias editaliases="$EDITOR $XDG_CONFIG_HOME/zsh-aliases"
 
 alias gc="cd ~/.config"
@@ -44,10 +42,8 @@ alias yta="yt-dlp -x -f bestaudio"
 # easier to read disk
 alias df='df -h'     # human-readable sizes
 alias du='du -hd1 | sort -h'     # human-readable sizes
-alias durecursive='du -h'     # human-readable sizes
-alias free='free -m' # show sizes in MB
 
 # remove need to type sudo
-for cmd in pacman rc-update rc-service reboot poweroff mount umount docker docker-compose; do
+for cmd in pacman systemctl journalctl reboot poweroff mount umount docker docker-compose; do
 	alias $cmd="sudo $cmd";
 done; unset cmd

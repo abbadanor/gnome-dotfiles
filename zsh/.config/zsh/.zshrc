@@ -34,7 +34,6 @@ source "$ZDOTDIR/zsh-functions"
 
 # Normal files to source
 zsh_add_file "zsh-aliases"
-zsh_add_file "zsh-prompt"
 
 # Ensure history file exists
 if [[ ! -f $HISTFILE ]]; then
@@ -82,3 +81,5 @@ bindkey -r '^[c'
 bindkey -r '^T'
 
 compinit
+
+eval "$(starship init zsh)"
