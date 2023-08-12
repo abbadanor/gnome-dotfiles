@@ -293,7 +293,11 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
+  eslint = {
+    settings = {
+      autoFixOnSave = true,
+    }
+  },
 
   lua_ls = {
     Lua = {
