@@ -101,7 +101,7 @@
 }
 
 .window-floated-border {
-  border-width: 1px;
+  border-width: 3px;
   border-color: rgba(0,0,0,0);
   border-style: solid;
   border-radius: 14px;

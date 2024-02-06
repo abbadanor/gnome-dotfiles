@@ -1,55 +1,50 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- [[ Setting options ]]
+-- See `:help vim.o`
 
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.smartindent = true
-vim.o.incsearch = true
+
+-- Set highlight on search
 vim.o.hlsearch = false
+vim.o.incsearch = true
 
-vim.o.signcolumn = 'yes'
+-- Make line numbers default
+vim.wo.number = true
+vim.wo.relativenumber = true
+
+-- enable scrolloff
 vim.o.scrolloff = 8
 
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
+vim.o.wrap = true
 
-vim.o.updatetime = 300
-
-vim.o.termguicolors = true
-
+-- Enable mouse mode
 vim.o.mouse = 'a'
-vim.o.wrap = false
-vim.o.swapfile = false
-vim.o.backup = false
 
--- for undotree
-vim.o.undodir = os.getenv('HOME') .. '/.local/share/nvim/undodir'
+-- Enable break indent
+vim.o.breakindent = true
+vim.o.linebreak = true
+
+-- Save undo history
 vim.o.undofile = true
 
-vim.keymap.set('i', '<C-H>', '<C-W>')
-vim.keymap.set('n', '<leader>.', vim.cmd.Ex)
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-vim.keymap.set('n', 'Y', "yg$")
-vim.keymap.set('n', 'J', "mzJ`z")
-vim.keymap.set('n', '<C-u>', "<C-u>zz")
-vim.keymap.set('n', '<C-d>', "<C-d>zz")
-vim.keymap.set('n', 'n', "nzzzv")
-vim.keymap.set('n', 'N', "Nzzzv")
-vim.keymap.set('x', '<leader>p', "\"_dP")
-vim.keymap.set('n', '<leader>y', "\"+y")
-vim.keymap.set('v', '<leader>y', "\"+y")
-vim.keymap.set('n', '<leader>Y', "\"+Y")
-vim.keymap.set('n', '<leader>d', "\"_d")
-vim.keymap.set('v', '<leader>y', "\"_d")
-vim.keymap.set('v', 'Q', "<nop>")
+-- Case-insensitive searching UNLESS \C or capital in search
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })
-    end,
-})
+-- Keep signcolumn on by default
+vim.wo.signcolumn = 'yes'
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- NOTE: You should make sure your terminal supports this
+vim.o.termguicolors = true
+vim.o.conceallevel = 2 -- TODO: for neorg, maybe adjust?
+vim.o.foldlevelstart = 99
+
+vim.keymap.set('n', '<leader>w', ':set wrap!<CR>', { desc = 'Toggle Word [W]rap'})
+
+
+-- vim: ts=2 sts=2 sw=2 et
