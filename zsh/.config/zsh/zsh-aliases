@@ -1,5 +1,4 @@
 #!/bin/sh
-# common commands
 alias p="pacman"
 alias v="nvim"
 alias s="systemctl"
@@ -10,22 +9,20 @@ alias remote="ssh root@a-nord.se"
 alias ls="exa -l --color=always --group-directories-first"
 alias la="exa -la --color=always --group-directories-first"
 alias rmsudo="sudo rm -rf"
-alias editaliases="$EDITOR $XDG_CONFIG_HOME/zsh-aliases"
 
 alias gc="cd ~/.config"
 alias gd="cd ~/dev"
 alias gC="cd ~/.dotfiles"
 alias gD="cd ~/Downloads"
-alias go="cd ~/org"
 alias gp="cd ~/Pictures"
 alias gv="cd ~/Videos"
 alias gm="cd ~/Music"
-alias gs="cd ~/.local/sources"
+alias gs="cd ~/.local/src"
 alias gS="cd ~/.local/share"
 alias gb="cd ~/.local/bin"
+alias gn="cd ~/notes/personal"
 alias gM="cd /mnt"
 alias gr="cd /"
-alias eht="cd ~/dev/web/ehtkollen/"
 
 alias rmnodemodules="fd -u -t d node_modules -x rm -rf {}"
 
