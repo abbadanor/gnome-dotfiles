@@ -36,9 +36,9 @@ source "$ZDOTDIR/zsh-functions"
 zsh_add_file "zsh-aliases"
 
 # Ensure history file exists
-if [[ ! -f $HISTFILE ]]; then
-	[ -d $(dirname $HISTFILE) ] || mkdir -p $(dirname $HISTFILE)
-	touch $HISTFILE
+if [[ -n "$HISTFILE" && ! -f "$HISTFILE" ]]; then
+	[ -d $(dirname "$HISTFILE") ] || mkdir -p $(dirname "$HISTFILE")
+	touch "$HISTFILE"
 	echo "ZSH: Created history file in $(dirname $HISTFILE)"
 fi
 
@@ -60,6 +60,8 @@ zsh_add_plugin "lukechilds/zsh-nvm"
 # For more plugins: https://github.com/unixorn/awesome-zsh-plugins
 # More completions https://github.com/zsh-users/zsh-completions
 bindkey -s '^o' 'ranger^M'
+bindkey -s '^f' 'tmux-sessionizer^M'
+
 # "cd -" går till föregående directory. användbart efter fzf. 
 bindkey -M viins -s '^b' 'cd -^M' # https://unix.stackexchange.com/a/373796
 bindkey -M viins '^H' backward-kill-word 

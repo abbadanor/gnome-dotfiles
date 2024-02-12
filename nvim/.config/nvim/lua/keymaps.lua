@@ -64,12 +64,6 @@ vim.keymap.set('n', '<leader>s', vim.cmd.so, { desc = 'Source Lua file' })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = true, desc = 'which_key_ignore' })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { silent = true, desc = 'which_key_ignore' })
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = 'which_key_ignore' })
-
--- TODO: maybe move this?
-vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
-  desc = 'return cursor to where it was last time closing the file',
-  pattern = '*',
-  command = 'silent! normal! g`"zv',
-})
+vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- vim: ts=2 sts=2 sw=2 et

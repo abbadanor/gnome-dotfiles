@@ -69,21 +69,30 @@ local function telescope_live_grep_open_files()
   }
 end
 
+local function telescope_find_files()
+  require('telescope.builtin').find_files {
+    follow = true
+  }
+end
+
 local function telescope_find_config_files()
   require('telescope.builtin').find_files {
-    cwd = "~/.config/nvim"
+    cwd = "~/.config/nvim",
+    follow = true
   }
 end
 
 local function telescope_find_home_notes()
   require('telescope.builtin').find_files {
-    cwd = "~/notes/home"
+    cwd = "~/notes/home",
+    follow = true
   }
 end
 
 local function telescope_find_work_notes()
   require('telescope.builtin').find_files {
-    cwd = "~/notes/work"
+    cwd = "~/notes/work",
+    follow = true
   }
 end
 
@@ -91,7 +100,7 @@ vim.keymap.set('n', '<leader>,', require('telescope.builtin').buffers, { desc = 
 vim.keymap.set('n', '<leader>f/', telescope_live_grep_open_files, { desc = '[/] Live Grep open files' })
 vim.keymap.set('n', '<leader>ft', require('telescope.builtin').builtin, { desc = '[F]ind [T]elescope picker' })
 vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').git_files, { desc = '[ ] Find in project' })
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind in cwd' })
+vim.keymap.set('n', '<leader>ff', telescope_find_files, { desc = '[F]ind in cwd' })
 vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp' })
 vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[F]ind current [W]ord' })
 vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]earch with [G]rep' })

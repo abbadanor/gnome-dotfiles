@@ -7,6 +7,7 @@ return {
           enabled = true,
         }
       }
-    }
+    },
+    cmd = "ZenMode"
   },
 }

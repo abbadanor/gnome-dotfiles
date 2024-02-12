@@ -56,6 +56,9 @@ require 'options'
 -- [[ Basic Keymaps ]]
 require 'keymaps'
 
+-- [[ Basic Autocmds ]]
+require 'autocmds'
+
 -- [[ Configure Telescope ]]
 -- (fuzzy finder)
 require 'telescope-setup'
