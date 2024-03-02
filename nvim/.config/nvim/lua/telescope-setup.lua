@@ -77,22 +77,20 @@ end
 
 local function telescope_find_config_files()
   require('telescope.builtin').find_files {
-    cwd = "~/.config/nvim",
+    search_dirs = {"~/.config/nvim"},
     follow = true
   }
 end
 
 local function telescope_find_home_notes()
   require('telescope.builtin').find_files {
-    cwd = "~/notes/home",
-    follow = true
+    search_dirs = {"~/notes/home"},
   }
 end
 
 local function telescope_find_work_notes()
   require('telescope.builtin').find_files {
-    cwd = "~/notes/work",
-    follow = true
+    search_dirs = {"~/notes/work"},
   }
 end
 

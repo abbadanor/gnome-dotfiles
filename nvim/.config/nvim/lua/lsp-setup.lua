@@ -127,4 +127,6 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+require('lspconfig').zls.setup {}
+
 -- vim: ts=2 sts=2 sw=2 et
