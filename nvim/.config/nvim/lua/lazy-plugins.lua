@@ -199,10 +199,10 @@ require('lazy').setup({
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
-  require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.rust',
-  require 'kickstart.plugins.neorg',
-  require 'kickstart.plugins.zen-mode',
+  require 'plugins.autopairs',
+  require 'plugins.rust',
+  require 'plugins.neorg',
+  require 'plugins.zen-mode',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping

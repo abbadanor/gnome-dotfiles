@@ -1,0 +1,15 @@
+#/usr/bin/env bash
+
+excluded_dirs=("Code/" "spotify/" "zsh/plugins/")
+
+exclude_opts=""
+
+for dir in "${excluded_dirs[@]}"; do
+    exclude_opts+=" -E $dir"
+done
+
+selected_file=$(fd . "$XDG_CONFIG_HOME" --type f -L $exclude_opts | fzf)
+
+if [ -n "$selected_file" ]; then
+    $EDITOR "$selected_file"
+fi
