@@ -28,10 +28,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- netrw
 vim.keymap.set('n', '<leader>.', vim.cmd.Ex, { desc = '[.] Open netrw' })
 
+local function bDeleteOther()
+  vim.cmd [[ %bd|e#|bd# ]]
+end
+
 -- buffer management
 vim.keymap.set('n', '<leader>bp', vim.cmd.bprevious, { desc = '[P]revious buffer' })
 vim.keymap.set('n', '<leader>bn', vim.cmd.bnext, { desc = '[N]ext buffer' })
 vim.keymap.set('n', '<leader>bk', vim.cmd.bdelete, { desc = '[D]elete buffer' })
+vim.keymap.set('n', '<leader><tab>x', bDeleteOther, { desc = '[D]elete buffer' })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 

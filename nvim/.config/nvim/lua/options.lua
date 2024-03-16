@@ -29,6 +29,10 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- neovide
+vim.o.guifont = "JetBrainsMono Nerd Font Mono"
+vim.g.neovide_transparency = 0.9
+
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 

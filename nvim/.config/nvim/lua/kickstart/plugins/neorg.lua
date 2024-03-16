@@ -9,7 +9,18 @@ return {
       require("neorg").setup {
         load = {
           ["core.defaults"] = {},  -- Loads default behaviour
-          ["core.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.autocommands"] = {},  -- Loads default behaviour
+          ["core.concealer"] = { -- Adds pretty icons to your documents
+            config = {
+              folds = false,
+              icon_preset = "diamond",
+            },
+          },
+          ["core.completion"] = {
+            config = {
+              engine = "nvim-cmp",
+            },
+          }, -- Code completion
           ["core.dirman"] = {      -- Manages Neorg workspaces
             config = {
               workspaces = {

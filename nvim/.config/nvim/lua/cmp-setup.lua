@@ -44,15 +44,18 @@ cmp.setup {
       end
     end, { 'i', 's' }),
   },
-  cmp.setup.filetype('norg', {
-    sources = cmp.config.sources({
-      { name = 'buffer' },
-    })
-  });
+  -- vad gör det här???
+  -- cmp.setup.filetype('norg', {
+  --   sources = cmp.config.sources({
+  --     { name = 'buffer' },
+  --   })
+  -- });
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'neorg' }
+    -- { name = 'spell' },
   },
 }
 
