@@ -1,10 +1,16 @@
 return {
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+  },
+  {
     "nvim-neorg/neorg",
     lazy = false,
     run = ":Neorg sync-parsers",
     build = ":Neorg sync-parsers",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope", "luarocks.nvim" },
+    version = "*",
     config = function()
       require("neorg").setup {
         load = {
@@ -30,6 +36,7 @@ return {
               default_workspace = "home"
             },
           },
+          ["core.integrations.telescope"] = {},
         },
       }
     end,

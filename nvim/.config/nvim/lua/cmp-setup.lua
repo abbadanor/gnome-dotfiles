@@ -6,11 +6,11 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
+  -- snippet = {
+  --   expand = function(args)
+  --     luasnip.lsp_expand(args.body)
+  --   end,
+  -- },
   preselect = 'none', -- TODO: check if needed
   completion = {
     completeopt = 'menu,menuone,noinsert',
@@ -45,14 +45,9 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   -- vad gör det här???
-  -- cmp.setup.filetype('norg', {
-  --   sources = cmp.config.sources({
-  --     { name = 'buffer' },
-  --   })
-  -- });
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    -- { name = 'luasnip' },
     { name = 'path' },
     { name = 'neorg' }
     -- { name = 'spell' },

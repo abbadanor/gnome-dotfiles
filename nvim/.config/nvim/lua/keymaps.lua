@@ -32,6 +32,10 @@ local function bDeleteOther()
   vim.cmd [[ %bd|e#|bd# ]]
 end
 
+local function toggleZen()
+  require("zen-mode").toggle()
+end
+
 -- buffer management
 vim.keymap.set('n', '<leader>bp', vim.cmd.bprevious, { desc = '[P]revious buffer' })
 vim.keymap.set('n', '<leader>bn', vim.cmd.bnext, { desc = '[N]ext buffer' })
@@ -48,6 +52,10 @@ vim.keymap.set('i', '<C-H>', '<C-W>')
 -- move visual lines with J and K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- move through single linges
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 
 -- shift to start of line after J
 vim.keymap.set("n", "J", "mzJ`z")
@@ -69,6 +77,8 @@ vim.keymap.set('n', '<leader>s', vim.cmd.so, { desc = 'Source Lua file' })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = true, desc = 'which_key_ignore' })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { silent = true, desc = 'which_key_ignore' })
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = 'which_key_ignore' })
-vim.keymap.set("x", "<leader>p", [["_dP]])
+--TODO: fix!!
+vim.keymap.set("n", "<leader>p", [["_dP]])
+vim.keymap.set({ "n", "v" }, "<leader>z", toggleZen)
 
 -- vim: ts=2 sts=2 sw=2 et

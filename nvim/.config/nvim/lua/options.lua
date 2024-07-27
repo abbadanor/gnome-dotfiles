@@ -1,6 +1,7 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+vim.o.autochdir = true
 
 -- Set highlight on search
 vim.o.hlsearch = false
